@@ -228,15 +228,17 @@ class Names:
         if not self.original_titles:
             return
 
-        titles = self.split_quoted_titles(self.original_titles)
+        # titles = self.split_quoted_titles(self.original_titles)
+        titles = self.original_titles
         if self.singleton:
             titles = [self.album]
-        else:
-            titles = self.remove_album_catalognum(titles)
-            self.catalognum_in_titles, titles = self.eject_common_catalognum(titles)
-            titles = self.remove_number_prefix(titles)
+        # else:
+        #     titles = self.remove_album_catalognum(titles)
+        #     self.catalognum_in_titles, titles = self.eject_common_catalognum(titles)
+        #     titles = self.remove_number_prefix(titles)
 
-        titles = self.normalize_delimiter(titles)
-        titles = self.remove_label(titles)
-        self.album_in_titles, titles = self.eject_album_name(titles)
-        self.titles = self.ensure_artist_first(titles)
+        # titles = self.normalize_delimiter(titles)
+        # titles = self.remove_label(titles)
+        # self.album_in_titles, titles = self.eject_album_name(titles)
+        # self.titles = self.ensure_artist_first(titles)
+        self.titles = titles

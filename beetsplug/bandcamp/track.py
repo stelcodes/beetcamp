@@ -159,34 +159,35 @@ class Track:
 
     @classmethod
     def parse_name(cls, name: str, artist: str, index: int | None) -> JSONDict:
-        result: JSONDict = {}
-        artist, artist_digi_only = cls.clean_digi_name(artist)
-        name, name_digi_only = cls.clean_digi_name(name)
-        result["digi_only"] = name_digi_only or artist_digi_only
+        # result: JSONDict = {}
+        return {name: name, "json_artist": artist, "digi_only": False}
+        # artist, artist_digi_only = cls.clean_digi_name(artist)
+        # name, name_digi_only = cls.clean_digi_name(name)
+        # result["digi_only"] = name_digi_only or artist_digi_only
 
-        if artist:
-            artist = Helpers.clean_name(artist)
-        name = Helpers.clean_name(name).strip()
+        # if artist:
+        #     artist = Helpers.clean_name(artist)
+        # name = Helpers.clean_name(name).strip()
 
-        if m := cls.TRACK_ALT_PAT.search(name):
-            result["track_alt"] = m.group(1).replace(".", "").upper()
-            name = name.replace(m.group(), "")
-
-        if m := Catalognum.delimited.search(name):
-            result["catalognum"] = m.group(1)
-            name = name.replace(m.group(), "").strip()
+        # if m := cls.TRACK_ALT_PAT.search(name):
+        #     result["track_alt"] = m.group(1).replace(".", "").upper()
+        #     name = name.replace(m.group(), "")
+        #
+        # if m := Catalognum.delimited.search(name):
+        #     result["catalognum"] = m.group(1)
+        #     name = name.replace(m.group(), "").strip()
 
         # Remove leading index
-        if index:
-            name = re.sub(rf"^0?{index}\W\W+", "", name)
-            result["medium_index"] = index
-
-        if remix := Remix.from_name(name):
-            result["remix"] = remix
-            if remix.start:
-                name = name.removeprefix(remix.full).strip()
-            elif remix.end:
-                name = name.removesuffix(remix.full).strip()
+        # if index:
+        #     name = re.sub(rf"^0?{index}\W\W+", "", name)
+        #     result["medium_index"] = index
+        #
+        # if remix := Remix.from_name(name):
+        #     result["remix"] = remix
+        #     if remix.start:
+        #         name = name.removeprefix(remix.full).strip()
+        #     elif remix.end:
+        #         name = name.removesuffix(remix.full).strip()
 
         return {**result, **cls.get_featuring_artist(name, artist)}
 
